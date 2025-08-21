@@ -1,11 +1,13 @@
 // app.js
 function App() {
     const [tasks, setTasks] = React.useState([]);
+    const [newTask, setNewTask] = React.useState("");
 
     const addTask = () => {
-        const newTask = prompt("Enter a new task:");
+        if (newTask.trim() === "") return;
         if (newTask) {
             setTasks([...tasks, newTask]);
+            setNewTask("");
         }
     };
 
@@ -16,8 +18,11 @@ function App() {
     return (
         <div>
             <h1>My Task Tracker</h1>
-            <button onClick={addTask}>Add Task</button>
-            <p>Welcome! This is your first React component.</p>
+            <div className="form">
+                <input type="text" value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Add a task" />
+                <button className="button" onClick={addTask}>Add Task</button>
+            </div>
+            <p className="welcome">Thanks for checking out my first, simple, on-going React Project. Primarily, I prefer to use Vanilla JavaScript, but I have decided that this would be fun to learn too!</p>
             <Tasklist tasks={tasks} removeTask={removeTask} />
         </div>
     );
@@ -26,7 +31,7 @@ function App() {
 // Tasklist
 function Tasklist({ tasks, removeTask }) {
     if (tasks.length === 0) {
-        return <h1>No Tasks</h1>
+        return <h2>No Tasks</h2>
     } else {
         return (
             <ul style={{ listStyleType: "none" }}>
@@ -55,7 +60,7 @@ function TaskItem({ taskTitle, removeTask }) {
             />
             <li className={striked ? "striked" : ""}>{taskTitle}</li>
             <button className="button-delete" onClick={removeTask}>
-                -
+                —
             </button>
         </div>
     );
